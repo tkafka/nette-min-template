@@ -9,14 +9,4 @@ $(function() {
 		$('#more').slideDown();
 		return false;
 	});
-
-	if (!$('#soruces').length) {
-		$('<img id="target" src="images/code.png">').appendTo('body').fold({
-			directory: 'images',
-			startingWidth: 40,
-			startingHeight: 40,
-			maxHeight: 500,
-			sourceUrl: 'sources'
-		});
-	}
 });

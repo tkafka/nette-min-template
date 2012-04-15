@@ -3,9 +3,7 @@ common:
 		date.timezone: Europe/Prague
 
 	services:
-		twitterDavidGrudl: Twitter(...secret keys...)
-
-		twitterGeekovo: Twitter(...secret keys...)
+		twitterXyz: Twitter(...secret keys...)
 
 production < common:
 

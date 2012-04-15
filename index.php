@@ -25,25 +25,16 @@ $container = $configurator->createContainer();
 
 
 // Setup routes
-// http://davidgrudl.com/[cs|en]
-$container->router[] = new Route('[<lang (?-i)cs|en>]', function($presenter, $lang) use ($container) {
-	if (!$lang) {
-		$lang = $container->httpRequest->detectLanguage(array('en', 'cs')) ?: 'cs';
-		return $presenter->redirectUrl($lang);
-	}
+$container->router[] = new Route('', function($presenter) use ($container) {
 
 	// create template
 	$template = $presenter->createTemplate()
-		->setFile(__DIR__ . '/app/' . $lang . '.latte');
+		->setFile(__DIR__ . '/app/index.latte');
 
 	// register template helpers like {$foo|date}
 	$template->registerHelper('date', function($date) use ($lang) {
 		if ($lang === 'en') {
 			return date('F j, Y', (int) $date);
-		} else {
-			static $months = array(1 => 'leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec');
-			$date = getdate((int) $date);
-			return "$date[mday]. {$months[$date['mon']]} $date[year]";
 		}
 	});
 
@@ -56,19 +47,6 @@ $container->router[] = new Route('[<lang (?-i)cs|en>]', function($presenter, $la
 	});
 
 	$template->registerHelper('texy', array(new Texy, 'process'));
-	return $template;
-});
-
-
-// http://davidgrudl.com/sources
-$container->router[] = new Route('sources', function($presenter) {
-
-	$template = $presenter->createTemplate()
-		->setFile(__DIR__ . '/app/sources.latte');
-
-	$template->registerHelper('source', function($file, $lang = NULL) {
-		return preg_replace('#<br ?/?>#', '', highlight_file($file, TRUE));
-	});
 	return $template;
 });
 
